@@ -1,23 +1,34 @@
 <?php
-   protected $id;
-   protected $name;
-   protected $lastName;
-   protected $role;
-   protected $cf;
-   protected $email;
-   protected $phone;
-   protected $address;
+  require_once 'traits/Autorizzazione.php';
 
-   public function __construct($_id, $_name, $_lastName, $_role)
+  class Employee {
+
+    use Autorizzazione;
+    protected $id;
+    protected $name;
+    protected $lastName;
+    protected $role;
+    protected $cf;
+    protected $email;
+    protected $phone;
+    protected $address;
+  }
+   public function __construct($_aurorizzazione, $_id, $_name, $_lastName, $_role)
    {
+     if(!empty($_autorizzazione)) {
+       $this->getAutorizzazione($_autorizzazione);
+     }
+     if($this->autorizzato==false) {
+       throw new Exception('non hai l\'autorizzazione');
+     }
      setId($_id);
-     setId($_name);
-     setId($_lastName);
-     setId($_role);
+     setName($_name);
+     setLastName($_lastName);
+     setRole($_role);
    }
 
    public function setId($_id) {
-     if (empty($_orario)) {
+     if (empty($_id)) {
        throw new Exception('No id');
      } else {
        $this->id = $_id;
